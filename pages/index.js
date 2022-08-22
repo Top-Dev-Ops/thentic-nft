@@ -77,7 +77,7 @@ const options = [
 export default function Home() {
   const [option, setOption] = useState(options[0])
 
-  const { setNewWallet } = useThenticContext()
+  const { setNewWallet, setError } = useThenticContext()
 
   return (
     <div className="bg-stack-2">
@@ -86,6 +86,7 @@ export default function Home() {
         options={options}
         value={option}
         onChange={data => {
+          setError(null)
           setNewWallet(null)
           setOption(data)
         }}

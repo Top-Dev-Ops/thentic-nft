@@ -17,7 +17,7 @@ export default function TransferNft() {
     <>
       <div className="bg-stack-3 p-4 my-4 rounded">
         <div className="block text-md font-medium text-current mb-6">
-          MINT NFT
+          TRANSFER NFT
         </div>
 
         <div className="mb-4">
@@ -68,7 +68,7 @@ export default function TransferNft() {
 
         <div className="mb-4">
           <label htmlFor="from" className="block text-sm font-light text-primary">
-            Encrypted data (*):
+            NFT Owner (*):
           </label>
           <div className="mt-1">
             <input
@@ -84,7 +84,7 @@ export default function TransferNft() {
 
         <div className="mb-4">
           <label htmlFor="to" className="block text-sm font-light text-primary">
-            Owner address (0x... *):
+            NFT Receiver (0x... *):
           </label>
           <div className="mt-1">
             <input

@@ -46,6 +46,14 @@ export const ThenticContextProvider = ({ children }) => {
   }, [apiKey, chain?.id])
 
   const createNftContract = async (name, short_name) => {
+    if (name === '') {
+      setError('NFT name must not be empty')
+      return
+    }
+    if (short_name === '') {
+      setError('NFT short name must not be empty')
+      return
+    }
     const newApiKey = apiKey === '' ? await getNewApiKey() : apiKey
     const response = await fetch(`${baseUrl}/nfts/contract`, {
       method: 'POST',
@@ -61,9 +69,22 @@ export const ThenticContextProvider = ({ children }) => {
       name,
       short_name
     }])
+    setError(null)
   }
 
   const mintNft = async (contract, nft_id, nft_data, to) => {
+    if (contract === '') {
+      setError('NFT contract address must not be empty')
+      return
+    }
+    if (nft_data === '') {
+      setError('Encrypted data must not be empty')
+      return
+    }
+    if (to === '') {
+      setError('Owner address must not be empty')
+      return
+    }
     const newApiKey = apiKey === '' ? await getNewApiKey() : apiKey
     await fetch(`${baseUrl}/nfts/mint`, {
       method: 'POST',
@@ -78,9 +99,22 @@ export const ThenticContextProvider = ({ children }) => {
     })
     if (apiKey === '') setApiKey(newApiKey)
     else await getNfts()
+    setError(null)
   }
 
   const transferNft = async (contract, nft_id, from, to) => {
+    if (contract === '') {
+      setError('NFT contract address must not be empty')
+      return
+    }
+    if (from === '') {
+      setError('NFT owner address must not be empty')
+      return
+    }
+    if (to === '') {
+      setError('NFT receiver must not be empty')
+      return
+    }
     const newApiKey = apiKey === '' ? await getNewApiKey() : apiKey
     await fetch(`${baseUrl}/nfts/transfer`, {
       method: 'POST',
@@ -95,9 +129,18 @@ export const ThenticContextProvider = ({ children }) => {
     })
     if (apiKey === '') setApiKey(newApiKey)
     else await getNfts()
+    setError(null)
   }
 
   const createInvoice = async (amount, to) => {
+    if (amount === 0) {
+      setError('Invoice amount must be greater than 0')
+      return
+    }
+    if (to === '') {
+      setError('Receiver address must not be empty')
+      return
+    }
     const newApiKey = apiKey === '' ? await getNewApiKey() : apiKey
     await fetch(`${baseUrl}/invoices/new`, {
       method: 'POST',
@@ -112,9 +155,14 @@ export const ThenticContextProvider = ({ children }) => {
     })
     if (apiKey === '') setApiKey(newApiKey)
     else await getInvoices()
+    setError(null)
   }
 
   const cancelInvoice = async (request_id) => {
+    if (request_id === '') {
+      setError('Request Id must not be empty')
+      return
+    }
     const newApiKey = apiKey === '' ? await getNewApiKey() : apiKey
     await fetch(`${baseUrl}/invoices/cancel`, {
       method: 'POST',
@@ -129,6 +177,7 @@ export const ThenticContextProvider = ({ children }) => {
     })
     if (apiKey === '') setApiKey(newApiKey)
     else await getInvoices()
+    setError(null)
   }
 
   const createWallet = async () => {
@@ -144,6 +193,7 @@ export const ThenticContextProvider = ({ children }) => {
     setNewWallet(data)
     if (apiKey === '') setApiKey(newApiKey)
     else await getWallets()
+    setError(null)
   }
 
   const getWallets = async () => {
@@ -196,6 +246,7 @@ export const ThenticContextProvider = ({ children }) => {
       newWallet,
       setNewWallet,
       error,
+      setError,
     }}>
       {children}
     </ThenticContext.Provider>
